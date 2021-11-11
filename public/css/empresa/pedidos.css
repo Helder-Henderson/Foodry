@@ -1,0 +1,11 @@
+.content {
+  background-color: white;
+}
+
+.smile {
+  position:absolute;
+  top:61px;
+  right:530px;
+  width:1.8rem;
+  height:1rem;
+}

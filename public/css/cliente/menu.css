@@ -1,0 +1,32 @@
+.content {
+  background-color: white;
+  height:100vh !important;
+}
+
+
+.box-title {
+  margin-top:2rem;
+  padding:1rem;
+  align-items: end;
+}
+
+.content-card {
+  /* GAMBIARRA */
+  background-color:white;
+
+  border:1px solid silver; 
+  margin-top: 2rem;
+  padding:1rem;
+
+}
+
+.container-img {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-img a img{
+  max-height: 11rem;
+
+}

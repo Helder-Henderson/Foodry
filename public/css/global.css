@@ -1,0 +1,97 @@
+html {
+  --grey: #3b3b3b;
+  --white: #FFF;
+  --red: #dc3545;
+
+  font-family: 'Poppins', sans-serif;
+  font-size: 62.5%;
+  --bg: bisque:
+}
+
+.border {
+  border: 1px solid red;
+}
+
+form {
+  border:none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  text-decoration: none;
+}
+
+input,
+button,
+textarea,
+select {
+  border: 1px solid var(--grey);
+  border-radius: 0.3rem;
+}
+
+fieldset legend {
+  letter-spacing: 3px;
+}
+
+a,
+li,
+ul {
+  text-decoration: none;
+  color:black;
+}
+
+body {
+  background-color: bisque;
+}
+
+/* COMEÇO DA ESTILIZAÇÂO DO  CONTEUDO */
+
+.logo-image {
+  width: 5rem;
+}
+
+.content {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-repeat: no-repeat;
+  
+}
+
+.content-ajuste {
+  background-size: 40rem 67rem;
+}
+
+.content h1 {
+  font-weight: 700;
+  letter-spacing: .1rem;
+  color: var(--white);
+  font-size: 5rem;
+}
+
+.ajuste {
+  margin-left: 2rem;
+}
+
+.button {
+  border-radius:1.5rem;
+}
+
+/* COMEÇO DO CONTEÙDO DOS ITEMS DO CARDÀPIO */
+/* 
+.content-card {
+  width: 90%;
+  margin-top: 2rem;
+}
+
+.card-image {
+  width: 11rem;
+  height: 9rem;
+
+  border-radius: .5rem;
+
+  max-height: 9rem;
+  max-width: 11rem;
+} */

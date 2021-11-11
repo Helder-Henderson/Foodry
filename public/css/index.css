@@ -1,0 +1,16 @@
+.content  {
+  background-image: url(../assets/images/bg-index.png);
+}
+
+.content div img {
+  max-width:4rem;
+  margin-left:6.4rem;
+
+}
+
+footer {
+  font-weight: 300;
+  font-size:1.4rem;
+  color:white;
+  margin-bottom:2rem;
+}

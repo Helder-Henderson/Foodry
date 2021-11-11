@@ -1,0 +1,14 @@
+.content {
+  background-image: url(../../assets/images/bg-welcome.png);
+}
+
+.content a {
+  border-radius:1.4rem;
+
+  margin:0 3rem 3.5rem 3rem;
+  padding:.8rem;
+
+  letter-spacing: 1px;
+  font-weight: 600;
+  font-size:1.8rem;
+}
