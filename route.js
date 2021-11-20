@@ -31,6 +31,8 @@ route.get('/pedidos', (req, res) => res.render("pedidos", { page: ""}))
 
 
 //EMPRESA
+//ALTERAÇÔES PRO JOMAR VER
+
 
 route.get('/registrar-empresa', (req, res) => res.render("registrar-empresa", { page: ""}))
 route.post('/registrar-empresa',EnterpriseController.create)
