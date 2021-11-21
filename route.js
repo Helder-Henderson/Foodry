@@ -16,8 +16,7 @@ route.get('/entrar-cliente', (req, res) => res.render("entrar-cliente", { page: 
 route.post('/entrar-cliente',UserController.login)
 
 ///:id
-route.get('/perfil-cliente', (req, res) => res.render("perfil-cliente", { page: ""}))
-
+route.get('/perfil-cliente/:id', UserController.openPerfil)
 
 route.get('/menu-cliente/:id',(req, res) => res.render("menu-cliente", { page: ""}))
 

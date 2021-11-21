@@ -38,5 +38,18 @@ module.exports = {
     const info = await dataGet.find((c) => c.cpf == `${cpf}`)
 
     res.redirect('menu-cliente/'+ info._id);
+  },
+  
+  async openPerfil(req,res) {
+
+    const id = req.params.id
+
+    const dataGet = (await axios.get("http://localhost:4000/cliente")).data
+
+    const info = await dataGet.find((c) => c._id === `${id}`)
+
+    console.log(info)
+
+    res.render("perfil-cliente",{info})
   }
 }
