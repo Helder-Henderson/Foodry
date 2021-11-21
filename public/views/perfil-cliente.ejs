@@ -77,27 +77,27 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form action="atualizar-empresa" class="form d-flex flex-column w-75 mb-2">
+                <form action="atualizar-cliente" class="form d-flex flex-column m-5 mt-0 mb-2">
 
                   <label for="name">Nome:</label>
-                  <input placeholder="João da Silva" name="name" id="name" type="text" required>
+                  <input placeholder="<%= info.nome %>" name="name" id="name" type="text" required>
 
                   <label for="cpf">CPF:</label>
-                  <input class="cpf" placeholder="000.000.000-00" id="cpf" name="cpf" type="text" minlength="14"
+                  <input class="cpf" placeholder="<%= info.cpf %>" id="cpf" name="cpf" type="text" minlength="14"
                     maxlength="14" required>
 
                   <label for="phone">Telefone:</label>
-                  <input placeholder="(xx) 9xxxx-xxxx" minlength="15" maxlength="15" class="telefone" type="text"
+                  <input placeholder="<%= info.telefone %>" minlength="15" maxlength="15" class="telefone" type="text"
                     name="phone" id="phone" required>
 
                   <label for="email">E-mail:</label>
-                  <input placeholder="xxxx@gmail.com" name="email" id="email" type="email" required>
+                  <input placeholder="<%= info.email %>" name="email" id="email" type="email" required>
+
+                  <div class="modal-footer">
+                    <button type="submit" class="fs-4 btn btn-success">Confirmar Alterações</button>
+                  </div>
 
                 </form>
-              </div>
-
-              <div class=" modal-footer">
-                <button type="submit" class="fs-4 btn btn-success">Confirmar Alterações</button>
               </div>
             </div>
           </div>

@@ -6,26 +6,24 @@ module.exports = {
     const cpf = req.body.cpf
     const email = req.body.email
     const telefone = req.body.phone
-    const senha = "123"
     const nome = req.body.name
 
     var user = {
       "cpf": `${cpf}`,
       "nome": `${nome}`,
       "email": `${email}`,
-      "senha": `${senha}`,
       "telefone": `${telefone}`
     }
 
     axios.post("http://localhost:4000/cliente", user).then(response => {
 
-      console.log("Successs")
+      console.log("Success ")
 
     }).catch(error =>
       console.log("Error")
     )
 
-    res.redirect(200, "inicio-cliente")
+    res.redirect(200, "entrar-cliente")
 
   },
 
@@ -37,7 +35,12 @@ module.exports = {
 
     const info = await dataGet.find((c) => c.cpf == `${cpf}`)
 
-    res.redirect('menu-cliente/'+ info._id);
+    if(info != undefined || null) {
+      res.redirect('menu-cliente/'+ info._id);
+    }
+    else {
+      res.redirect(400,'../entrar-cliente')
+    }
   },
   
   async openPerfil(req,res) {
@@ -50,6 +53,29 @@ module.exports = {
 
     console.log(info)
 
-    res.render("perfil-cliente",{info})
+    if(info != undefined || null ) {
+      res.render("perfil-cliente",{info})
+    }
+    else {
+      res.redirect(400,'../entrar-cliente')
+    }
+    
+  },
+  
+  async atualizarPerfil(req,res) {
+
+    const id = req.params.id
+
+    const dataGet = (await axios.get("http://localhost:4000/cliente")).data
+
+    const info = await dataGet.find((c) => c._id === `${id}`)
+
+    axios.put("http://localhost:4000/cliente",info.cpf).then(response => {
+
+  
+    }).catch(error =>{
+
+    })
+
   }
 }

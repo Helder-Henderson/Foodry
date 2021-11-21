@@ -21,8 +21,6 @@ module.exports = {
     }).catch(error =>
       console.log("Error")
     )
-
-    location.href
     
     res.redirect(200, "inicio-empresa")
   },
@@ -37,5 +35,24 @@ module.exports = {
 
     res.redirect('cardapio/'+ info._id);
 
+  },
+
+  async openPerfil(req,res) {
+
+    const id = req.params.id
+
+    const dataGet = (await axios.get("https://localhost:4000/restaurante")).data
+
+    const info = dataGet.find((c) => c._id === `${id}`)
+
+    if (info != undefined || null) {
+      res.render("perfil-empresa", {info})
+    }
+    else {
+      res.render(400,'../entrar-empresa')
+    }
+
   }
+
+
 }

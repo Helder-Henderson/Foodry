@@ -17,6 +17,7 @@ route.post('/entrar-cliente',UserController.login)
 
 ///:id
 route.get('/perfil-cliente/:id', UserController.openPerfil)
+route.post('/atualizar-cliente/:id', UserController.atualizarPerfil)
 
 route.get('/menu-cliente/:id',(req, res) => res.render("menu-cliente", { page: ""}))
 
@@ -46,7 +47,7 @@ route.get('/inicio-empresa', (req, res) => res.render("inicio-empresa", { page: 
 route.get('/entrar-empresa', (req, res) => res.render("entrar-empresa", { page: ""}))
 route.post('/entrar-empresa',EnterpriseController.login)
 
-route.get('/perfil-empresa', (req, res) => res.render("perfil-empresa", { page: ""}))
+route.get('/perfil-empresa/:id',EnterpriseController.openPerfil)
 
 //CARDAPIO EMPRESA
 route.get('/cardapio/:id', (req, res) => res.render("cardapio", { page: ""}))
