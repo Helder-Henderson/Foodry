@@ -19,7 +19,7 @@ route.get('/menu-cliente/:id',(req, res) => res.render("menu-cliente", { page: "
 
 route.get('/detalhes', (req, res) => res.render("detalhes", { page: ""}))
 
-route.get('/perfil-cliente', (req, res) => res.render("perfil-cliente", { page: ""}))
+route.get('/perfil-cliente/:id', UserController.openPerfil)
 
 route.get('/nota-fiscal', (req, res) => res.render("nota-fiscal", { page: ""}))
 

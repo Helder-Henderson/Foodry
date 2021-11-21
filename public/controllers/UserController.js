@@ -1,4 +1,5 @@
 const axios = require("axios")
+const { request } = require("express")
 
 module.exports = {
   create(req, res) {
@@ -35,8 +36,23 @@ module.exports = {
 
     const dataGet = (await axios.get("http://localhost:4000/cliente")).data
 
-    const info = await dataGet.find((c) => c.cpf == `${cpf}`)
+    const info = await dataGet.find((c) => c.cpf === `${cpf}`)
 
-    res.redirect('menu-cliente/'+ info._id);
+    res.redirect('menu-cliente/'+ info._id,200);
+
+  },
+
+  async openPerfil(req,res) {
+
+    const id = req.params.id
+
+    const dataGet = (await axios.get("http://localhost:4000/cliente")).data
+
+    const info = await dataGet.find((c) => c._id === `${id}`)
+
+    console.log(info)
+
+    res.render("perfil-cliente",{info})
+
   }
 }
