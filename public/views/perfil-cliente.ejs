@@ -61,10 +61,49 @@
         </div>
 
         <button class="m-auto submit" type="submit">
-          <span class="m-auto">
+          <span class="m-auto" data-bs-toggle="modal" data-bs-target="#attPerfil">
             Atualizar Cadastro
           </span>
         </button>
+
+
+        <!-- MODAL -->
+        <div class="fs-4 modal fade" id="attPerfil" tabindex="-1" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="text-success modal-title" id="exampleModalLabel">Atualizar Dados</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form action="atualizar-empresa" class="form d-flex flex-column w-75 mb-2">
+
+                  <label for="name">Nome:</label>
+                  <input placeholder="João da Silva" name="name" id="name" type="text" required>
+
+                  <label for="cpf">CPF:</label>
+                  <input class="cpf" placeholder="000.000.000-00" id="cpf" name="cpf" type="text" minlength="14"
+                    maxlength="14" required>
+
+                  <label for="phone">Telefone:</label>
+                  <input placeholder="(xx) 9xxxx-xxxx" minlength="15" maxlength="15" class="telefone" type="text"
+                    name="phone" id="phone" required>
+
+                  <label for="email">E-mail:</label>
+                  <input placeholder="xxxx@gmail.com" name="email" id="email" type="email" required>
+
+                </form>
+              </div>
+
+              <div class=" modal-footer">
+                <button type="submit" class="fs-4 btn btn-success">Confirmar Alterações</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
 
         <footer class="justify-content-center d-flex fixed-bottom">
           <div class="d-flex w-25 justify-content-around">
@@ -123,6 +162,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
   </script>
+  <script src="../scripts/foodry.js"></script>
 </body>
 
 </html>
