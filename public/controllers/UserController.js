@@ -1,4 +1,7 @@
 const axios = require("axios")
+const {
+  response
+} = require("express")
 
 module.exports = {
   create(req, res) {
@@ -9,22 +12,20 @@ module.exports = {
     const nome = req.body.name
 
     var user = {
-      "cpf": `${cpf}`,
-      "nome": `${nome}`,
-      "email": `${email}`,
-      "telefone": `${telefone}`
+      cpf: `${cpf}`,
+      nome: `${nome}`,
+      email: `${email}`,
+      telefone: `${telefone}`
     }
 
     axios.post("http://localhost:4000/cliente", user).then(response => {
 
-      console.log("Success ")
-
-    }).catch(error =>
-      console.log("Error")
-    )
-
-    res.redirect(200, "entrar-cliente")
-
+      console.log(user)
+      res.redirect(200, "inicio-cliente")
+    }).catch(error => {
+      console.log(error)
+      res.redirect(400, "inicio-cliente")
+    })
   },
 
   async login(req, res) {
@@ -33,49 +34,82 @@ module.exports = {
 
     const dataGet = (await axios.get("http://localhost:4000/cliente")).data
 
-    const info = await dataGet.find((c) => c.cpf == `${cpf}`)
+    const info = dataGet.find((c) => c.cpf == `${cpf}`)
 
-    if(info != undefined || null) {
-      res.redirect('menu-cliente/'+ info._id);
-    }
-    else {
-      res.redirect(400,'../entrar-cliente')
-    }
+    info ? res.redirect(`menu-cliente/${info._id}`) : res.redirect(400, '../entrar-cliente')
+
   },
-  
-  async openPerfil(req,res) {
+
+  async abrirPerfil(req, res) {
 
     const id = req.params.id
 
     const dataGet = (await axios.get("http://localhost:4000/cliente")).data
 
-    const info = await dataGet.find((c) => c._id === `${id}`)
+    const info = dataGet.find((c) => c._id === `${id}`)
 
-    console.log(info)
+    info ? res.render("perfil-cliente", {
+      info
+    }) : res.redirect(400, '../entrar-cliente')
 
-    if(info != undefined || null ) {
-      res.render("perfil-cliente",{info})
-    }
-    else {
-      res.redirect(400,'../entrar-cliente')
-    }
-    
   },
-  
-  async atualizarPerfil(req,res) {
+
+  async abrirMenu(req, res) {
 
     const id = req.params.id
 
     const dataGet = (await axios.get("http://localhost:4000/cliente")).data
 
-    const info = await dataGet.find((c) => c._id === `${id}`)
+    const info = dataGet.find((c) => c._id === `${id}`)
 
-    axios.put("http://localhost:4000/cliente",info.cpf).then(response => {
+    info ? res.render("menu-cliente", {
+      info
+    }) : res.redirect(400, '../entrar-cliente')
 
-  
-    }).catch(error =>{
+  },
 
-    })
+  async atualizarCliente(req, res) {
+
+    const id = req.params.id
+
+    const cpf = req.body.cpf
+    const nome = req.body.name
+    const telefone = req.body.phone
+    const email = req.body.email
+
+    const attUser = {
+      cpf: `${cpf}`,
+      nome: `${nome}`,
+      telefone: `${telefone}`,
+      email: `${email}`,
+    }
+
+    const dataGet = (await axios.get("http://localhost:4000/cliente")).data
+
+    var info = dataGet.find((c) => c._id === `${id}`)
+
+    info ? await axios.put(`http://localhost:4000/cliente/${info.cpf}`, attUser) : res.redirect(400, "../inicio-cliente")
+
+    info = dataGet.find((c) => c._id === `${id}`)
+
+    info ? res.redirect(`/perfil-cliente/${info._id}`) : res.redirect(400,"../inicio-cliente")
+
+
+  },
+
+  async deletarUsuario(req, res) {
+
+    const id = req.params.id
+
+    const dataGet = (await axios.get("http://localhost:4000/cliente")).data
+
+    const info = dataGet.find((c) => c._id === `${id}`)
+
+    info ? axios.delete(`http://localhost:4000/cliente/${info.cpf}`) : res.redirect(400, "../entrar-cliente")
+
+    console.log('Success')
+
+    res.redirect(200, "../inicio-cliente")
 
   }
 }

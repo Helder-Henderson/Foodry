@@ -9,23 +9,25 @@ module.exports = {
     const nomeFantasia = req.body.name
 
     var enterprise = {
-      "cnpj": `${cnpj}`,
-      "nomeFantasia": `${nomeFantasia}`,
-      "endereco": `${endereco}`,
-      "telefone": `${telefone}`
+      cnpj: `${cnpj}`,
+      nomeFantasia: `${nomeFantasia}`,
+      endereco: `${endereco}`,
+      telefone: `${telefone}`
     }
 
     axios.post("http://localhost:4000/restaurante", enterprise).then(response => {
-      console.log("Success")
 
-    }).catch(error =>
-      console.log("Error")
-    )
-    
-    res.redirect(200, "inicio-empresa")
+      console.log(enterprise)
+      res.redirect(200, "entrar-empresa")
+
+    }).catch(error => {
+
+      console.log(error)
+      res.redirect(400, "registrar-empresa")
+    })
   },
 
-  async login(req,res) {
+  async login(req, res) {
 
     const cnpj = req.body.cnpj
 
@@ -33,26 +35,79 @@ module.exports = {
 
     const info = dataGet.find((c) => c.cnpj == `${cnpj}`)
 
-    res.redirect('cardapio/'+ info._id);
+    info ? res.redirect(`cardapio/${info._id}`) : res.redirect(400, "entrar-empresa")
 
   },
 
-  async openPerfil(req,res) {
+  async abrirPerfil(req, res) {
 
     const id = req.params.id
 
-    const dataGet = (await axios.get("https://localhost:4000/restaurante")).data
+    const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
 
     const info = dataGet.find((c) => c._id === `${id}`)
 
-    if (info != undefined || null) {
-      res.render("perfil-empresa", {info})
+    info ? res.render("perfil-empresa", {
+      info
+    }) : res.redirect(400, "../entrar-empresa")
+
+
+  },
+
+  async abrirCardapio(req, res) {
+
+    const id = req.params.id
+
+    const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
+
+    const info = dataGet.find((c) => c._id === `${id}`)
+
+    info ? res.render("cardapio", {
+      info
+    }) : res.redirect(400, "../inicio-empresa")
+
+  },
+
+  async atualizarEmpresa(req, res) {
+
+    const id = req.params.id
+
+    const cnpj = req.body.cnpj
+    const nomeFantasia = req.body.name
+    const telefone = req.body.phone
+    const endereco = req.body.adress
+
+    const attEnterprise = {
+      cnpj : `${cnpj}`,
+      nomeFantasia : `${nomeFantasia}`,
+      endereco: `${endereco}`,
+      telefone: `${telefone}`,
     }
-    else {
-      res.render(400,'../entrar-empresa')
-    }
+
+    const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
+
+    let info = dataGet.find((c) => c._id === `${id}`)
+
+    info ? await axios.put(`http://localhost:4000/restaurante/${info.cnpj}`, attEnterprise) : res.redirect(400, "../inicio-empresa")
+
+    info = dataGet.find((c) => c._id === `${id}`)
+
+    res.redirect(`/perfil-empresa/${info._id}`)
+    
+  },
+
+  async deletarEmpresa(req, res) {
+
+    const id = req.params.id
+
+    const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
+
+    const info = dataGet.find((c) => c._id === `${id}`)
+
+    info ? axios.delete(`http://localhost:4000/restaurante/${info.cnpj}`) : res.redirect(400, "../inicio-empresa")
+
+    res.redirect(200, "../inicio-empresa")
 
   }
-
 
 }

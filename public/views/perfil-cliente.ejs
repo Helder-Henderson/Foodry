@@ -77,7 +77,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form action="atualizar-cliente" class="form d-flex flex-column m-5 mt-0 mb-2">
+                <form action="/att/<%= info._id %>" method="POST" class="form d-flex flex-column m-5 mt-0 mb-2">
 
                   <label for="name">Nome:</label>
                   <input placeholder="<%= info.nome %>" name="name" id="name" type="text" required>
@@ -93,7 +93,8 @@
                   <label for="email">E-mail:</label>
                   <input placeholder="<%= info.email %>" name="email" id="email" type="email" required>
 
-                  <div class="modal-footer">
+                  <div class="modal-footer justify-content-between">
+                    <a class="fs-4 btn-danger btn" href="/del/<%= info._id %>">Deletar Usuário</a>
                     <button type="submit" class="fs-4 btn btn-success">Confirmar Alterações</button>
                   </div>
 
@@ -108,7 +109,7 @@
         <footer class="justify-content-center d-flex fixed-bottom">
           <div class="d-flex w-25 justify-content-around">
 
-            <a class="" href="/menu-cliente">
+            <a class="" href="/menu-cliente/<%= info._id %>">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
                 role="img" width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 12 12">
                 <g fill="none">
@@ -128,7 +129,7 @@
                   fill="black" /></svg>
             </a> -->
 
-            <a class="" href="/comanda">
+            <a class="" href="/comanda/<%=info._id %>">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
                 role="img" width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
                 <g fill="none" stroke="black" stroke-width="4" stroke-linejoin="round">
