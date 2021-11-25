@@ -39,17 +39,6 @@
           <h4 class="opacity-75 mt-5">Aqui você cadastrará os produtos para a venda na sua loja</h4>
 
           <div class="p-2 d-flex justify-content-around mt-4">
-            <button class="button btn btn-danger fs-5" type="button" class="btn btn-primary" data-bs-toggle="modal"
-              data-bs-target="#exampleModal">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
-                role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
-                <g fill="none">
-                  <path d="M12 20v-8m0 0V4m0 8h8m-8 0H4" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" />
-                </g>
-              </svg>
-              Adicionar Categoria
-            </button>
             <button class="button p-2 btn btn-danger fs-5" data-bs-toggle="modal" data-bs-target="#addProduct">
 
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
@@ -63,32 +52,50 @@
             </button>
           </div>
         </div>
-      </div>
 
+
+        <% if(infoProduto) { %>
+
+        <div class="d-flex justify-content-center">
+          <h1 class="fs-2 text-black mt-2 mb-3">Pratos</h1>
+        </div>
+
+        <% for (var p of infoProduto ) { %>
+
+        <div class="container">
+          <div class="row mt-4  ">
+            <div class="col">
+              <h4 class="">
+                <%= p.nome %>
+              </h4>
+            </div>
+
+            <div class="col">
+              <h4><%= p.preco %></h4>
+            </div>
+
+            <div class="col-2">
+              <button class="btn btn-danger fs-5 m-0" onclick="colocarId(`/attProduto/<%=info._id%>/<%=p._id%>`)"
+                class="btn btn-danger fs-5" data-bs-toggle="modal" data-bs-target="#attProduct">
+                Editar
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+        <% } %>
+      </div>
     </div>
+
+
+    <% } else {%>
+    <h1 class="fs-2 text-black align-self-center mt-2">Pratos</h1>
+    <% } %>
+
+  </div>
   </div>
 
-  <div class="fs-4 modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="text-success modal-title" id="exampleModalLabel">Adicionar Categoria</h3>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form action="" class="form d-flex flex-column w-75 mb-2">
-
-            <label for="name" class="form-label">Nome da categoria: </label>
-            <input id="name-category" name="name-category" type="text" required>
-
-          </form>
-        </div>
-
-        <div class=" modal-footer">
-          <button type="button" class="fs-4 btn btn-success">Adicionar Categoria</button>
-        </div>
-      </div>
-    </div>
   </div>
 
 
@@ -97,90 +104,91 @@
       <div class="modal-content  ms-4">
         <div class="modal-header">
           <h3 class="text-success modal-title" id="addProductLabel">Adicionar Prato</h3>
-          
+
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body d-flex flex-column">
-          <small class="mb-3 opacity-50 fw-bold">Para adicionar um prato é preciso primeiro adicionar uma categoria !!</small>
-          <form action="" class="d-flex flex-column w-75 border form justify-content-center p-3">
+          <small class="mb-3 opacity-50 fw-bold">Para adicionar um prato é preciso preencher o formulário abaixo
+            !!</small>
 
-            <label for="file-dish" class="form-label mt-2">Foto do Prato </label>
-            <input id="file-dish" name="file-dish" type="file">
+          <form action="/addProduto/<%=info._id%>" method="POST"
+            class="d-flex flex-column border mx-5 mt-2 mb-2 justify-content-center p-3">
 
             <label for="name" class="form-label mt-2">Nome do Prato: </label>
-            <input id="name-category" name="name-category" type="text">
+            <input class="py-2" id="name" name="name" type="text" required>
 
-            <label for="time-dish" class="form-label mt-2 ">Tempo Médio Preparo: </label>
-            <input class="inteiro" class="p-1 w-25" id="time-dish" name="time-dish" type="number" maxlength="3" required>
+            <label for="tempo" class="form-label mt-2 ">Tempo Médio Preparo (Minutos): </label>
+            <input class="py-2 inteiro" class="p-1" id="tempo" name="tempo" type="string" required>
 
-            <label for="form-label mt-2">Selecionar Categoria</label>
-            <select name="Selecionar Categoria" id="" required>
-
+            <label for="category" class="form-label mt-2">Categoria :</label>
+            <select name="category" class="py-2 category" id="categoria">
               <option value=""></option>
-              <option value="">Hamburguer</option>
-
             </select>
 
-          </form>
+            <label for="preco" class="form-label mt-2">Preço: </label>
+            <input id="valor" onkeyup="formatarMoeda()" class="py-2" id="preco" name="preco" type="text">
 
-          <form action="" class="border form d-flex flex-column w-75 mt-4 p-3">
-            <h3>Ingredientes</h3>
-            <hr class="m-0 mb-3">
+            <label for="descricao" class="form-label mt-2">Descrição</label>
+            <input class="py-2" type="text" name="descricao" id="descricao" />
 
-            <label for="ingredient" class="form-label mt-2">Nome do ingrediente</label>
-            <input id="ingredient" name="ingredient" type="text" required>
-
-            <label for="portion" class="form-label mt-2">Porção</label>
-            <input class="inteiro" id="portion" name="portion" type="number" required>
-
-            <label for="quantity" class="form-label mt-2">Quantidade  <small>Em (g)</small></label>
-            <input class="inteiro w-25 p-1" id="quantity" name="quantity" minlength="1" maxlength="3" type="number" required>
-
-            <button class="fs-5 btn btn-success align-self-end">
-              Acrescentar ingrediente
-            </button>
+            <div class=" modal-footer ">
+              <button type="submit" class="fs-4 btn btn-success">Adicionar Prato</button>
+            </div>
 
           </form>
-
-          <form action="" class="border form d-flex flex-column w-75 mt-4 p-3">
-            <h3>Informações Nutricionais</h3>
-            <hr class="m-0 mb-3">
-
-            <label for="name-nutricional" class="form-label mt-2">Nome do elemento</label>
-            <input id="name-nutricional" name="name-nutricional" type="text" required>
-
-            <label for="quantity-nutricional" class="form-label mt-2">Quantidade <small>Em (g)</small></label>
-            <input class="w-25 p-1 inteiro" id="quantity-nutricional" name="quantity-nutricional" type="number" required>
-            
-
-            <button class="fs-5 btn btn-success align-self-end">
-              Acrescentar informação
-            </button>
-
-          </form>
-
-          <!-- ERA PRA INFORMAÇÂO APARECER AQUI DO INGREDIENTE ACRESCENTADO-->
-          <div>
-
-          </div>
-
-
         </div>
-        <div class=" modal-footer">
-          <button type="button" class="fs-4 btn btn-success">Adicionar Prato</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DA ATUALIZAÇÃO -->
+  <div class="fs-4 modal fade" id="attProduct" tabindex="-1" aria-labelledby="attProductLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content  ms-4">
+        <div class="modal-header">
+          <h3 class="text-success modal-title" id="attProductLabel">Atualizar Prato</h3>
+
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        
+        <div class="modal-body d-flex flex-column">
+          <small class="mb-3 opacity-50 fw-bold">Para atualizar um prato é preciso preencher o formulário abaixo
+            !!</small>
+
+          <form action="" method="POST" class="d-flex flex-column border mx-5 mt-2 mb-2 justify-content-center p-3">
+
+            <label for="name" class="form-label mt-2">Nome do Prato: </label>
+            <input class="py-2" id="name" name="name" type="text" required>
+
+            <label for="tempo" class="form-label mt-2 ">Tempo Médio Preparo (Minutos): </label>
+            <input class="py-2 inteiro" class="p-1" id="tempo" name="tempo" type="string" required>
+
+            <label for="category" class="form-label mt-2">Categoria :</label>
+            <select name="category" class="py-2 category" id="attCategoria">
+              <option value=""></option>
+            </select>
+
+            <label for="preco" class="form-label mt-2">Preço: </label>
+            <input id="valor" onkeyup="formatarMoeda()" class="py-2" id="preco" name="preco" type="text">
+
+            <label for="descricao" class="form-label mt-2">Descrição</label>
+            <input class="py-2" type="text" name="descricao" id="descricao" />
+
+            <div class=" modal-footer ">
+              <button type="submit" class="fs-4 btn btn-success">Adicionar Prato</button>
+            </div>
+
+          </form>
+        </div>
       </div>
     </div>
   </div>
 
 
-  <!-- FOOTER -->
   <footer class="justify-content-center d-flex fixed-bottom">
     <div class="d-flex w-25 justify-content-around">
       <a class="" href="">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
-          role="img" width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 12 12">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+          width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 12 12">
           <g fill="none">
             <path
               d="M6.307 1.105a.5.5 0 0 0-.614 0l-4.114 3.2A1.5 1.5 0 0 0 1 5.49V10a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V7h2v3a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V5.49a1.5 1.5 0 0 0-.58-1.185l-4.113-3.2z"
@@ -190,8 +198,8 @@
       </a>
 
       <a class="" href="pedidos/<%= info._id %>">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
-          role="img" width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+          width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
           <g fill="none" stroke="black" stroke-width="4" stroke-linejoin="round">
             <rect x="9" y="8" width="30" height="36" rx="2" />
             <path d="M18 4v6" stroke-linecap="round" />
@@ -204,8 +212,8 @@
       </a>
 
       <a class="" href="/perfil-empresa/<%= info._id %>">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
-          role="img" width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+          width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
           <path
             d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2S7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"
             fill="black" />
@@ -217,6 +225,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
   </script>
+  <script src="../scripts/enterprise.js"></script>
+  <script src="../scripts/foodry.js"></script>
 </body>
 
 </html>

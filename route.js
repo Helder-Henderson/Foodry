@@ -38,22 +38,24 @@ route.get('/pedidos', (req, res) => res.render("pedidos", { page: ""}))
 
 
 // MASTER (ORIGINAL)
+route.get('/inicio-empresa', (req, res) => res.render("inicio-empresa", { page: ""}))
 
 route.get('/registrar-empresa', (req, res) => res.render("registrar-empresa", { page: ""}))
 route.post('/registrar-empresa',EnterpriseController.create)
 
-route.get('/inicio-empresa', (req, res) => res.render("inicio-empresa", { page: ""}))
 
 route.get('/entrar-empresa', (req, res) => res.render("entrar-empresa", { page: ""}))
 route.post('/entrar-empresa',EnterpriseController.login)
 
 route.get('/perfil-empresa/:id',EnterpriseController.abrirPerfil)
-
+route.get('/del-empresa/:id',EnterpriseController.deletarEmpresa)
 route.post('/attEmpresa/:id', EnterpriseController.atualizarEmpresa)
 
-route.get('/del-empresa/:id',EnterpriseController.deletarEmpresa)
-
-//CARDAPIO EMPRESA
 route.get('/cardapio/:id',EnterpriseController.abrirCardapio)
+route.post('/addProduto/:id',EnterpriseController.adicionarProduto)
+route.post('/attProduto/:id',EnterpriseController.atualizarProduto)
+
+
+
 
 module.exports = route

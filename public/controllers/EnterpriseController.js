@@ -62,8 +62,10 @@ module.exports = {
 
     const info = dataGet.find((c) => c._id === `${id}`)
 
+    const infoProduto = (await axios.get("http://localhost:4000/produto")).data
+
     info ? res.render("cardapio", {
-      info
+      info , infoProduto
     }) : res.redirect(400, "../inicio-empresa")
 
   },
@@ -107,6 +109,40 @@ module.exports = {
     info ? axios.delete(`http://localhost:4000/restaurante/${info.cnpj}`) : res.redirect(400, "../inicio-empresa")
 
     res.redirect(200, "../inicio-empresa")
+
+  },
+
+  async adicionarProduto(req,res) {
+
+    const id = req.params.id
+
+    const nome = req.body.name
+    const tempo = req.body.tempo
+    const categoria = req.body.category
+    const preco = req.body.preco
+    const descricao = req.body.descricao
+
+    const newProduto = {
+      nome : `${nome}`,
+      tempoPreparo : `${tempo}`,
+      categoria : `${categoria}`,
+      preco : `${preco}`,
+      descricao : `${descricao}`,
+    }
+
+    
+    const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
+
+    const info = dataGet.find((c) => c._id === `${id}`)
+
+    info ? axios.post(`http://localhost:4000/produto`,newProduto) : res.redirect(400,"registrar-empresa")
+
+    res.redirect(`../cardapio/${info._id}`)
+
+  },
+
+  async atualizarProduto(req,res) {
+
 
   }
 
