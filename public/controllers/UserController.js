@@ -1,7 +1,4 @@
 const axios = require("axios")
-const {
-  response
-} = require("express")
 
 module.exports = {
   create(req, res) {
@@ -59,11 +56,17 @@ module.exports = {
     const id = req.params.id
 
     const dataGet = (await axios.get("http://localhost:4000/cliente")).data
-
     const info = dataGet.find((c) => c._id === `${id}`)
 
+    const restauranteGet = (await axios.get("http://localhost:4000/restaurante")).data
+    const restaurante = restauranteGet[0]
+
+
+    const produtoGet = (await axios.get("http://localhost:4000/produto")).data
+    const produto = produtoGet 
+
     info ? res.render("menu-cliente", {
-      info
+      info,restaurante,produto
     }) : res.redirect(400, '../entrar-cliente')
 
   },

@@ -47,6 +47,12 @@ function formatarMoeda() {
 }
 
 function colocarId(id) {
-  var element = document.getElementsByClassName("formAtt")
-  element.setAttribute("action",`${id}`)
+  let element = document.getElementById("formAtt")
+  let elementButton = document.getElementById("btnDel")
+
+  console.log(id)
+
+  elementButton.setAttribute("href",`/delProduto/${id}`)
+  element.setAttribute("action",`/attProduto/${id}`)
+
 }

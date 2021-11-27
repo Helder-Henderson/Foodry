@@ -75,7 +75,7 @@
             </div>
 
             <div class="col-2">
-              <button class="btn btn-danger fs-5 m-0" onclick="colocarId(`/attProduto/<%=info._id%>/<%=p._id%>`)"
+              <button class="btn btn-danger fs-5 m-0" onclick="colocarId(`<%=info._id%>/<%=p._id%>`)"
                 class="btn btn-danger fs-5" data-bs-toggle="modal" data-bs-target="#attProduct">
                 Editar
               </button>
@@ -97,7 +97,6 @@
   </div>
 
   </div>
-
 
   <div class="fs-4 modal fade" id="addProduct" tabindex="-1" aria-labelledby="addProductLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -139,7 +138,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> 
 
   <!-- MODAL DA ATUALIZAÇÃO -->
   <div class="fs-4 modal fade" id="attProduct" tabindex="-1" aria-labelledby="attProductLabel" aria-hidden="true">
@@ -154,7 +153,7 @@
           <small class="mb-3 opacity-50 fw-bold">Para atualizar um prato é preciso preencher o formulário abaixo
             !!</small>
 
-          <form action="" method="POST" class="d-flex flex-column border mx-5 mt-2 mb-2 justify-content-center p-3">
+          <form action="" id="formAtt" method="POST" class="d-flex flex-column border mx-5 mt-2 mb-2 justify-content-center p-3">
 
             <label for="name" class="form-label mt-2">Nome do Prato: </label>
             <input class="py-2" id="name" name="name" type="text" required>
@@ -173,8 +172,9 @@
             <label for="descricao" class="form-label mt-2">Descrição</label>
             <input class="py-2" type="text" name="descricao" id="descricao" />
 
-            <div class=" modal-footer ">
-              <button type="submit" class="fs-4 btn btn-success">Adicionar Prato</button>
+            <div class=" modal-footer justify-content-between">
+              <a id="btnDel" class="btn btn-danger fs-4" href="">Excluir Prato</a>
+              <button type="submit" class="fs-4 btn btn-success">Atualizar Prato</button>
             </div>
 
           </form>

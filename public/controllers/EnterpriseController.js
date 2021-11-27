@@ -18,7 +18,7 @@ module.exports = {
     axios.post("http://localhost:4000/restaurante", enterprise).then(response => {
 
       console.log(enterprise)
-      res.redirect(200, "entrar-empresa")
+      res.redirect("entrar-empresa")
 
     }).catch(error => {
 
@@ -114,8 +114,6 @@ module.exports = {
 
   async adicionarProduto(req,res) {
 
-    const id = req.params.id
-
     const nome = req.body.name
     const tempo = req.body.tempo
     const categoria = req.body.category
@@ -130,6 +128,7 @@ module.exports = {
       descricao : `${descricao}`,
     }
 
+    const id = req.params.id
     
     const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
 
@@ -143,7 +142,47 @@ module.exports = {
 
   async atualizarProduto(req,res) {
 
+    const nome = req.body.name
+    const tempo = req.body.tempo
+    const categoria = req.body.category
+    const preco = req.body.preco
+    const descricao = req.body.descricao
 
-  }
+    const attProduto = {
+      nome : `${nome}`,
+      tempoPreparo : `${tempo}`,
+      categoria : `${categoria}`,
+      preco : `${preco}`,
+      descricao : `${descricao}`,
+    }
+
+    console.log(attProduto)
+
+    const id = req.params.id
+    const idProduto = req.params.idProduto
+
+    console.log(idProduto)
+
+    await axios.put(`http://localhost:4000/produto/${idProduto}`,attProduto)
+
+    res.redirect(`../../cardapio/${id}`) 
+
+  },
+
+  async deletarProduto(req,res) {
+
+    const id = req.params.id
+    const idProduto = req.params.idProduto
+
+    const dataGet = (await axios.get("http://localhost:4000/produto")).data
+
+    const info = dataGet.find((c) => c._id === `${idProduto}`)
+
+    info ? await axios.delete(`http://localhost:4000/produto/${idProduto}`) : res.redirect(400,"inicio-empresa")
+
+    res.redirect(`../../cardapio/${id}`) 
+
+
+  },
 
 }
