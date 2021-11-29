@@ -21,21 +21,28 @@
 <body>
 
   <div class="container">
-    <form action="" method="POST">
+    <form action="<%=info._id%>/pedidoCliente" method="POST">
       <div class="row d-flex justify-content-center">
 
         <div class="d-flex flex-column content col col-sm-12 col-md-4">
 
-          <div class="box-title d-flex mb-2">
-
-            <h3 class="">
+          <div class="box-title justify-content-between d-flex mb-2">
+            <% if (restaurante) {  %>
+            <h2 class="">
               <%= restaurante.nomeFantasia %>
-            </h3>
-            <button class="submit m-auto fs-4 px-4 btn btn-danger" type="submit">Pedir !</button>
+            </h2>
+            <% } else { %>
+            <h2 class="">
+              Informar Restaurante
+            </h2>
+            <% } %>
+
+            <button class="fs-4 px-4 btn btn-danger" type="submit">Pedir !</button>
+
 
           </div>
-          
-        <% if(produto) { %>
+
+          <% if(produto) { %>
           <% for(var p of produto ) { %>
           <div class="content-card m-0">
 
@@ -43,84 +50,94 @@
               <a class="" href=""><img src="../../assets/images/layout-imagem.png" class="img-fluid"></a>
             </div>
 
-            <h4 class="mt-4">
+            <h3 class="mt-4 ">
               <%= p.nome %>
-            </h4>
+            </h3>
 
-            <div class="describe-card d-flex flex-column">
+            <div class="mt-3 describe-card d-flex flex-column">
 
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex flex-column">
 
-                <span class="fs-5 justify-content-start">
-                  R$ <%= p.preco %>  || Tempo de preparo : <%= p.tempoPreparo %> Minutos 
+                <span class=" fs-5 ">
+                  Valor  : R$ <%= p.preco %> 
+                </span>
+                <span class="fs-5">
+                  Tempo Estimado : <%= p.tempoPreparo %> Minutos
                 </span>
 
-                <span class="card-radio ">
-                  <input class="confirm" type="checkbox" value="<%=p._id%>">
-                </span>
-
+                <div class="mt-3 d-flex align-items-center ">
+                <div class="">
+                  <input class="" onclick="habilitar('<%=p._id%>')" name="ckPrato" type="checkbox" value="<%=p._id%>">
+                </div>
+                <div class="ms-4 ">
+                  <input class="inteiro w-25 fs-4 p-1" id="<%= p._id%>" name="qntPrato" required minlength="1" maxlength="2" placeholder="Qnt." type="text" disabled>
+                </div>
               </div>
             </div>
-            <hr></hr>
+
           </div>
-          
-          <% } %>
-
-  
-      <% } else {%>
-      <h1 class="fs-2 text-black align-self-center mt-2">Pratos</h1>
-      <% } %>
-
-          <footer class="justify-content-center d-flex fixed-bottom">
-            <div class="d-flex w-25 justify-content-around">
-              <a class="" href="">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
-                  role="img" width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 12 12">
-                  <g fill="none">
-                    <path
-                      d="M6.307 1.105a.5.5 0 0 0-.614 0l-4.114 3.2A1.5 1.5 0 0 0 1 5.49V10a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V7h2v3a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V5.49a1.5 1.5 0 0 0-.58-1.185l-4.113-3.2z"
-                      fill="black" />
-                  </g>
-                </svg>
-              </a>
-
-              <a class="" href="/comanda/<%= info._id %>">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
-                  role="img" width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
-                  <g fill="none" stroke="black" stroke-width="4" stroke-linejoin="round">
-                    <rect x="9" y="8" width="30" height="36" rx="2" />
-                    <path d="M18 4v6" stroke-linecap="round" />
-                    <path d="M30 4v6" stroke-linecap="round" />
-                    <path d="M16 19h16" stroke-linecap="round" />
-                    <path d="M16 27h12" stroke-linecap="round" />
-                    <path d="M16 35h8" stroke-linecap="round" />
-                  </g>
-                </svg>
-              </a>
-              <a class="" href="/perfil-cliente/<%= info._id %>">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
-                  role="img" width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
-                  <path
-                    d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2S7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"
-                    fill="black" />
-                </svg>
-              </a>
-            </div>
-          </footer>
-
+          <hr>
+          </hr>
         </div>
 
+        <% } %>
 
+
+        <% } else {%>
+        <h1 class="fs-2 text-black align-self-center mt-2">Pratos</h1>
+        <% } %>
+
+        <footer class="justify-content-center d-flex fixed-bottom">
+          <div class="d-flex w-25 justify-content-around">
+            <a class="" href="">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
+                role="img" width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 12 12">
+                <g fill="none">
+                  <path
+                    d="M6.307 1.105a.5.5 0 0 0-.614 0l-4.114 3.2A1.5 1.5 0 0 0 1 5.49V10a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V7h2v3a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V5.49a1.5 1.5 0 0 0-.58-1.185l-4.113-3.2z"
+                    fill="black" />
+                </g>
+              </svg>
+            </a>
+
+            <a class="" href="/comanda/<%= info._id %>">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
+                role="img" width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
+                <g fill="none" stroke="black" stroke-width="4" stroke-linejoin="round">
+                  <rect x="9" y="8" width="30" height="36" rx="2" />
+                  <path d="M18 4v6" stroke-linecap="round" />
+                  <path d="M30 4v6" stroke-linecap="round" />
+                  <path d="M16 19h16" stroke-linecap="round" />
+                  <path d="M16 27h12" stroke-linecap="round" />
+                  <path d="M16 35h8" stroke-linecap="round" />
+                </g>
+              </svg>
+            </a>
+            <a class="" href="/perfil-cliente/<%= info._id %>">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
+                role="img" width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                <path
+                  d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2S7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"
+                  fill="black" />
+              </svg>
+            </a>
+          </div>
+        </footer>
 
       </div>
-    </form>
+
+
+
+  </div>
+  </form>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
   </script>
   <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
-
+  <script src="../scripts/foodry.js"></script>
+  <script src="../scripts/user.js"></script>
 </body>
 
 </html>
