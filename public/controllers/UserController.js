@@ -18,10 +18,10 @@ module.exports = {
     axios.post("http://localhost:4000/cliente", user).then(response => {
 
       console.log(user)
-      res.redirect(200, "inicio-cliente")
+      res.redirect("inicio-cliente")
     }).catch(error => {
       console.log(error)
-      res.redirect(400, "inicio-cliente")
+      res.redirect("inicio-cliente")
     })
   },
 
@@ -33,7 +33,7 @@ module.exports = {
 
     const info = dataGet.find((c) => c.cpf == `${cpf}`)
 
-    info ? res.redirect(`menu-cliente/${info._id}`) : res.redirect(400, '../entrar-cliente')
+    info ? res.redirect(`menu-cliente/${info._id}`) : res.redirect('../entrar-cliente')
 
   },
 
@@ -47,7 +47,7 @@ module.exports = {
 
     info ? res.render("perfil-cliente", {
       info
-    }) : res.redirect(400, '../entrar-cliente')
+    }) : res.redirect('../entrar-cliente')
 
   },
 
@@ -67,7 +67,7 @@ module.exports = {
 
     info ? res.render("menu-cliente", {
       info,restaurante,produto
-    }) : res.redirect(400, '../entrar-cliente')
+    }) : res.redirect('../entrar-cliente')
 
   },
 
@@ -91,11 +91,11 @@ module.exports = {
 
     var info = dataGet.find((c) => c._id === `${id}`)
 
-    info ? await axios.put(`http://localhost:4000/cliente/${info.cpf}`, attUser) : res.redirect(400, "../inicio-cliente")
+    info ? await axios.put(`http://localhost:4000/cliente/${info.cpf}`, attUser) : res.redirect("../inicio-cliente")
 
     info = dataGet.find((c) => c._id === `${id}`)
 
-    info ? res.redirect(`/perfil-cliente/${info._id}`) : res.redirect(400,"../inicio-cliente")
+    info ? res.redirect(`/perfil-cliente/${info._id}`) : res.redirect("../inicio-cliente")
 
 
   },
@@ -108,11 +108,11 @@ module.exports = {
 
     const info = dataGet.find((c) => c._id === `${id}`)
 
-    info ? axios.delete(`http://localhost:4000/cliente/${info.cpf}`) : res.redirect(400, "../entrar-cliente")
+    info ? axios.delete(`http://localhost:4000/cliente/${info.cpf}`) : res.redirect("../entrar-cliente")
 
     console.log('Success')
 
-    res.redirect(200, "../inicio-cliente")
+    res.redirect("../inicio-cliente")
 
   }
 }
