@@ -57,17 +57,12 @@ function attFormatarMoeda() {
 }
 
 //Referencia ID no Modal de Atualização - função (delete)
-function PopularForm(idCliente,idPrato,nomePrato,descricaoPrato) {
+function PopularForm(idCliente,idPrato,nomePrato) {
   let element = document.getElementById("formAtt")
   let elementButton = document.getElementById("btnDel")
+  let elementoNome = document.getElementById("attNome")
 
   elementButton.setAttribute("href",`/delProduto/${idCliente}/${idPrato}`)
   element.setAttribute("action",`/attProduto/${idCliente}/${idPrato}`)
-
-  let elementoNome = document.getElementById("attNome")
-  let elementoDescricao = document.getElementById("attDescricao")
- 
   elementoNome.setAttribute("value",`${nomePrato}`)
-  elementoDescricao.setAttribute("value",`${descricaoPrato}`)
-
 }

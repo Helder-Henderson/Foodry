@@ -1,6 +1,8 @@
 const axios = require("axios")
 
 module.exports = {
+  //ADD 
+  //#region
   create(req, res) {
 
     const cpf = req.body.cpf
@@ -24,6 +26,10 @@ module.exports = {
       res.redirect("inicio-cliente")
     })
   },
+  //#endregion
+  
+  //OPEN
+  //#region
 
   async login(req, res) {
 
@@ -36,6 +42,7 @@ module.exports = {
     info ? res.redirect(`menu-cliente/${info._id}`) : res.redirect('../entrar-cliente')
 
   },
+
 
   async abrirPerfil(req, res) {
 
@@ -70,7 +77,10 @@ module.exports = {
     }) : res.redirect('../entrar-cliente')
 
   },
+  //#endregion
 
+  // DELETE OR UPDATE
+  //#region
   async atualizarCliente(req, res) {
 
     const id = req.params.id
@@ -114,5 +124,6 @@ module.exports = {
 
     res.redirect("../inicio-cliente")
 
-  }
+  },
+  //#endregion
 }

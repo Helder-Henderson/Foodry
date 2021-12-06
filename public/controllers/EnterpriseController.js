@@ -21,7 +21,7 @@ module.exports = {
     axios.post("http://localhost:4000/restaurante", enterprise).then(response => {
 
       console.log(enterprise)
-      res.redirect("entrar-empresa")
+      res.redirect("inicio-empresa")
 
     }).catch(error => {
 

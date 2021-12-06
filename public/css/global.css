@@ -10,6 +10,28 @@ html {
   cursor:default;
 }
 
+
+.submit {
+  background-color: var(--red);
+  color: white;
+
+  border: none;
+
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-size: 1.7rem;
+
+  padding: 1rem;
+  border-radius: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.submit:hover {
+  transition-duration: .2s;
+  filter: brightness(1.1);
+
+}
+
 .border {
   border: 1px solid red;
 }

@@ -11,6 +11,8 @@ module.exports = {
     const dataGet = (await axios.get("http://localhost:4000/cliente")).data
     const info = dataGet.find((c) => c._id === `${id}`)
 
+    const nomeCliente = info.nome
+
     const dataGetProduto = (await axios.get("http://localhost:4000/produto")).data
 
     const random = Math.floor(Math.random() * (1000 - 1 + 1)) + 1;
@@ -45,11 +47,11 @@ module.exports = {
             }
 
             let infoProduto = dataGetProduto.find((c) => c._id === `${pedido}`)
-          
+
             tempoTotal = infoProduto.tempoPreparo
 
             precoPrato = infoProduto.preco
-            precoPrato = precoPrato.replace(',','.')
+            precoPrato = precoPrato.replace(',', '.')
             valorTotal = precoPrato
 
             objArrayPratos.push(pedido_prato)
@@ -63,7 +65,7 @@ module.exports = {
             let infoProduto = dataGetProduto.find((c) => c._id === `${pedido}`)
 
             precoPrato = infoProduto.preco
-            precoPrato = precoPrato.replace(',','.')
+            precoPrato = precoPrato.replace(',', '.')
             valorTotal = precoPrato * quantidade
 
             valorTotal = valorTotal.toFixed(2)
@@ -93,7 +95,7 @@ module.exports = {
 
             precoPrato = infoProduto.preco
 
-            precoPrato = precoPrato.replace(',','.')
+            precoPrato = precoPrato.replace(',', '.')
 
             valorTotal += precoPrato * Number.parseInt(quantidade[i])
 
@@ -106,9 +108,10 @@ module.exports = {
           valorTotal = valorTotal.toFixed(2)
         }
 
-        valorTotal = valorTotal.replace('.',',')
+        valorTotal = valorTotal.replace('.', ',')
 
         var newPedido = {
+          nome: `${nomeCliente}`,
           tempoEstimado: `${tempoTotal}`,
           numeroPedido: `${random}`,
           totalPedido: `${valorTotal}`,
@@ -150,4 +153,26 @@ module.exports = {
       res.redirect(`/menu-cliente/${id}`)
     }
   },
+
+  async abrirPedidos(req, res) {
+    const id = req.params.id
+
+    const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
+    const info = dataGet.find((c) => c._id === `${id}`)
+
+    const infoPedido = (await axios.get("http://localhost:4000/pedido")).data
+
+    const infoProduto = (await axios.get("http://localhost:4000/produto")).data
+
+    if (infoPedido) {
+      res.render("pedidos", {
+        infoPedido,
+        info,
+        infoProduto
+      })
+    } else {
+      res.redirect(`/menu-restaurante/${id}`)
+    }
+  },
+
 }
