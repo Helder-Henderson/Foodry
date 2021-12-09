@@ -1,6 +1,8 @@
 const axios = require("axios")
 
 module.exports = {
+  //ADD
+  //#region
   async solicitacao(req, res) {
 
     const id = req.params.id
@@ -135,6 +137,11 @@ module.exports = {
     }
   },
 
+  //#endregion
+
+  //OPEN
+  //#region
+
   async abrirComanda(req, res) {
 
     const id = req.params.id
@@ -171,8 +178,81 @@ module.exports = {
         infoProduto
       })
     } else {
-      res.redirect(`/menu-restaurante/${id}`)
+      res.redirect(`/`)
     }
   },
+
+  async abrirHistorico(req,res) {
+    const id = req.params.id
+
+    const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
+    const info = dataGet.find((c) => c._id === `${id}`)
+
+    const infoPedido = (await axios.get("http://localhost:4000/pedido")).data
+
+    const infoProduto = (await axios.get("http://localhost:4000/produto")).data
+
+    if (info) {
+      res.render("historico-pedido", {
+        infoPedido,
+        info,
+        infoProduto
+      })
+    } else {
+      res.redirect(`/`)
+    }
+  },
+  //#endregion
+
+  //UPDATE
+  //#region
+
+  async excluirPedido(req,res) {
+    const id = req.params.id
+    const idPedido = req.params.idPedido
+
+    const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
+    const info = dataGet.find((c) => c._id === `${id}`)
+
+    const infoPedido = (await axios.get("http://localhost:4000/pedido")).data
+    const pedido = infoPedido.find((c) => c._id === `${idPedido}`)    
+
+    console.log(pedido._id + "+" + pedido.numeroPedido)
+
+    if(pedido) {
+      axios.delete(`http://localhost:4000/pedido/${idPedido}`)
+      console.log("entrou no delete")
+    }
+
+    if (info) {
+      res.redirect(`/pedidos/${id}`)
+      }
+    else {
+      res.redirect(`/`)
+    }
+  },
+
+  async sucessoPedido(req,res) {
+    const id = req.params.id
+    const idPedido = req.params.idPedido
+
+    const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
+    const info = dataGet.find((c) => c._id === `${id}`)
+
+    const infoPedido = (await axios.get("http://localhost:4000/pedido")).data
+    const pedido = infoPedido.find((c) => c._id === `${idPedido}`)    
+
+    if(pedido) {
+      axios.put(`http://localhost:4000/pedido/${pedido._id}`,pedido._id)
+    }
+
+    if (info) {
+      res.redirect(`/pedidos/${id}`)
+      }
+    else {
+      res.redirect(`/`)
+    }
+  }
+  //#endregion
 
 }

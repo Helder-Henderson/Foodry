@@ -63,6 +63,9 @@ route.get('/cardapio/:id',EnterpriseController.abrirCardapio)
 
 //PARTE PEDIDO 
 route.get("/pedidos/:id",PedidoController.abrirPedidos)
+route.get("/historico/:id",PedidoController.abrirHistorico)
+route.get("/excluir-pedido/:id/:idPedido",PedidoController.excluirPedido)
+route.get("/successo-pedido/:id/:idPedido",PedidoController.sucessoPedido)
 //#endregion
 
 module.exports = route

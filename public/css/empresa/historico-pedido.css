@@ -1,0 +1,17 @@
+.content {
+  background-color: white;
+}
+
+.smile {
+  position:absolute;
+  top:61px;
+  right:516px;
+  width:1.8rem;
+  height:1rem;
+}
+
+.boxPedido {
+  margin-bottom:1rem;
+  border:1px solid rgb(108, 165, 22);
+  border-radius:.5rem;
+}

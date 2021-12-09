@@ -32,11 +32,11 @@ module.exports = {
 
   async adicionarProduto(req, res) {
 
-    const nome = req.body.name
+    const nome = req.body.name.trim()
     const tempo = req.body.tempo
     const categoria = req.body.category
     var preco = req.body.preco
-    const descricao = req.body.descricao
+    const descricao = req.body.descricao.trim()
 
     const newProduto = {
       nome: `${nome}`,

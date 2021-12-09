@@ -9,3 +9,9 @@
   width:1.8rem;
   height:1rem;
 }
+
+.boxPedido {
+  margin-bottom:1rem;
+  border:1px solid rgb(128, 117, 117);
+  border-radius:.5rem;
+}
