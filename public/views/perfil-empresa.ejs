@@ -91,18 +91,18 @@
                 <form action="/attEmpresa/<%= info._id %>" method="POST" class="form d-flex flex-column m-5 mt-0 mb-2">
 
                   <label for="name">Nome Fantasia:</label>
-                  <input placeholder="<%= info.nomeFantasia %>" name="name" id="name" type="text" required>
+                  <input value="<%= info.nomeFantasia %>" name="name" id="name" type="text" required>
 
                   <label for="cnpj">CNPJ:</label>
-                  <input placeholder="<%= info.cnpj %>" class="cnpj" id="cnpj" name="cnpj" minlength="18" maxlength="18"
+                  <input value="<%= info.cnpj %>" class="cnpj" id="cnpj" name="cnpj" minlength="18" maxlength="18"
                     type="text" required>
 
                   <label for="phone">Telefone:</label>
-                  <input placeholder="<%= info.telefone %>" class="telefone" type="text" name="phone" id="phone"
+                  <input value="<%= info.telefone %>" class="telefone" type="text" name="phone" id="phone"
                     minlength="15" maxlength="15" required>
 
                   <label for="adress">Endereço:</label>
-                  <input placeholder="<%= info.endereco %>" name="adress" id="adress" type="text" required>
+                  <input value="<%= info.endereco %>" name="adress" id="adress" type="text" required>
 
                   <div class=" modal-footer justify-content-between">
                     <a class="fs-4 btn-danger btn" href="/del-empresa/<%=info._id%>">Deletar Usuário</a>

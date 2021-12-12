@@ -7,7 +7,7 @@ html {
   font-size: 62.5%;
   --bg: bisque;
 
-  cursor:default;
+  cursor: default;
 }
 
 
@@ -37,7 +37,7 @@ html {
 }
 
 form {
-  border:none;
+  border: none;
 }
 
 * {
@@ -45,6 +45,7 @@ form {
   padding: 0;
   font-family: 'Poppins', sans-serif;
   text-decoration: none;
+
 }
 
 input,
@@ -63,7 +64,11 @@ a,
 li,
 ul {
   text-decoration: none;
-  color:black;
+  color: black;
+}
+
+li {
+  list-style-type: none;
 }
 
 body {
@@ -81,7 +86,7 @@ body {
   padding: 0;
   height: 100vh;
   background-repeat: no-repeat;
-  
+
 }
 
 .content-ajuste {
@@ -100,7 +105,7 @@ body {
 }
 
 .button {
-  border-radius:1.3rem;
-  padding:.7rem;
+  border-radius: 1.3rem;
+  padding: .7rem;
   letter-spacing: .1rem;
 }

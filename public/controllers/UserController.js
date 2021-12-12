@@ -19,10 +19,9 @@ module.exports = {
 
     axios.post("http://localhost:4000/cliente", user).then(response => {
 
-      console.log(user)
       res.redirect("inicio-cliente")
     }).catch(error => {
-      console.log(error)
+  
       res.redirect("inicio-cliente")
     })
   },
@@ -119,8 +118,6 @@ module.exports = {
     const info = dataGet.find((c) => c._id === `${id}`)
 
     info ? axios.delete(`http://localhost:4000/cliente/${info.cpf}`) : res.redirect("../entrar-cliente")
-
-    console.log('Success')
 
     res.redirect("../inicio-cliente")
 

@@ -20,12 +20,10 @@ module.exports = {
 
     axios.post("http://localhost:4000/restaurante", enterprise).then(response => {
 
-      console.log(enterprise)
       res.redirect("inicio-empresa")
 
     }).catch(error => {
 
-      console.log(error)
       res.redirect("registrar-empresa")
     })
   },

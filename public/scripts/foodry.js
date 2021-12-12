@@ -4,9 +4,11 @@ function mascara(o, f) {
     v_fun = f
     setTimeout("execMascara()", 1)
 }
+
 function execMascara() {
     v_obj.value = v_fun(v_obj.value)
 }
+
 function getByClass(el) {
     return document.getElementsByClassName(el);
 }
@@ -27,6 +29,16 @@ function mascaraInteiro(v) {
     v = v.replace(/\D/g, ""); //Remove tudo o que n�o � d�gito
     return v;
 }
+
+
+function mascaraInteiroZero(v) {
+    v = v.replace(/\D/g, ""); //Remove tudo o que n�o � d�gito
+    if (v == 0) {
+        v = null
+    }
+    return v;
+}
+
 
 function mascaraTelefone(v) {
     v = mascaraInteiro(v)
@@ -169,6 +181,16 @@ for (n = 0; n < elementsInt.length; n++) {
     }
     elementsInt[n].onchange = function () {
         mascara(this, mascaraInteiro);
+    }
+}
+
+var elementsInt = getByClass('inteiroZero');
+for (n = 0; n < elementsInt.length; n++) {
+    elementsInt[n].onkeydown = function () {
+        mascara(this, mascaraInteiroZero);
+    }
+    elementsInt[n].onchange = function () {
+        mascara(this, mascaraInteiroZero);
     }
 }
 //}

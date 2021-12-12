@@ -13,6 +13,9 @@ module.exports = {
     const dataGet = (await axios.get("http://localhost:4000/cliente")).data
     const info = dataGet.find((c) => c._id === `${id}`)
 
+    // const dataGetPedido = (await axios.get("http://localhost:4000/pedido")).data
+    // const infoPedido
+
     const nomeCliente = info.nome
 
     const dataGetProduto = (await axios.get("http://localhost:4000/produto")).data
@@ -112,6 +115,9 @@ module.exports = {
 
         valorTotal = valorTotal.replace('.', ',')
 
+        var tempo = new Date()
+        tempo = tempo.toLocaleTimeString()
+
         var newPedido = {
           nome: `${nomeCliente}`,
           tempoEstimado: `${tempoTotal}`,
@@ -119,10 +125,9 @@ module.exports = {
           totalPedido: `${valorTotal}`,
           cpf: `${info.cpf}`,
           produtos: objArrayPratos,
-          status: false
+          status: false,
+          tempo: tempo
         }
-
-        console.log(newPedido)
 
         await axios.post('http://localhost:4000/pedido', newPedido)
 
@@ -150,11 +155,26 @@ module.exports = {
     const info = dataGet.find((c) => c._id === `${id}`)
 
     const dataGetPedido = (await axios.get("http://localhost:4000/pedido")).data
-    const infoPedido = dataGetPedido.find((c) => c.cpf === `${info.cpf}`)
+    const infoPedido = dataGetPedido.filter((c) => c.cpf === `${info.cpf}` && c.status != true)
+
+    const dataGetProduto = (await axios.get("http://localhost:4000/produto")).data
+    const produto = dataGetProduto
+
+    let valorTotal = 0.0;
+
+    for (var i = 0; i < infoPedido.length; i++) {
+      var valor = parseFloat(infoPedido[i].totalPedido.replace(',', '.'))
+      valorTotal += valor
+    }
+
+    valorTotal = valorTotal.toString().replace('.', ',')
 
     if (infoPedido) {
       res.render("comanda", {
-        infoPedido
+        infoPedido,
+        info,
+        produto,
+        valorTotal
       })
     } else {
       res.redirect(`/menu-cliente/${id}`)
@@ -182,7 +202,7 @@ module.exports = {
     }
   },
 
-  async abrirHistorico(req,res) {
+  async abrirHistorico(req, res) {
     const id = req.params.id
 
     const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
@@ -204,10 +224,11 @@ module.exports = {
   },
   //#endregion
 
-  //UPDATE
+  //UPDATE OR DELETE
   //#region
 
-  async excluirPedido(req,res) {
+  //RESTAURANTE
+  async excluirPedido(req, res) {
     const id = req.params.id
     const idPedido = req.params.idPedido
 
@@ -215,24 +236,20 @@ module.exports = {
     const info = dataGet.find((c) => c._id === `${id}`)
 
     const infoPedido = (await axios.get("http://localhost:4000/pedido")).data
-    const pedido = infoPedido.find((c) => c._id === `${idPedido}`)    
+    const pedido = infoPedido.find((c) => c._id === `${idPedido}`)
 
-    console.log(pedido._id + "+" + pedido.numeroPedido)
-
-    if(pedido) {
+    if (pedido) {
       axios.delete(`http://localhost:4000/pedido/${idPedido}`)
-      console.log("entrou no delete")
     }
 
     if (info) {
       res.redirect(`/pedidos/${id}`)
-      }
-    else {
+    } else {
       res.redirect(`/`)
     }
   },
 
-  async sucessoPedido(req,res) {
+  async sucessoPedido(req, res) {
     const id = req.params.id
     const idPedido = req.params.idPedido
 
@@ -240,17 +257,59 @@ module.exports = {
     const info = dataGet.find((c) => c._id === `${id}`)
 
     const infoPedido = (await axios.get("http://localhost:4000/pedido")).data
-    const pedido = infoPedido.find((c) => c._id === `${idPedido}`)    
+    const pedido = infoPedido.find((c) => c._id === `${idPedido}`)
 
-    if(pedido) {
-      axios.put(`http://localhost:4000/pedido/${pedido._id}`,pedido._id)
+    if (pedido) {
+      pedido.status = true
+      axios.put(`http://localhost:4000/pedido/${pedido._id}`, pedido)
     }
 
     if (info) {
       res.redirect(`/pedidos/${id}`)
-      }
-    else {
+    } else {
       res.redirect(`/`)
+    }
+  },
+
+  //CLIENTE
+  async cancelarPedido(req, res) {
+    const id = req.params.id
+    const idPedido = req.params.idPedido
+
+    const dataGet = (await axios.get("http://localhost:4000/cliente")).data
+    const info = dataGet.find((c) => c._id === `${id}`)
+
+    const dataGetPedido = (await axios.get("http://localhost:4000/pedido")).data
+    var infoPedido = dataGetPedido.filter((c) => c.cpf === `${info.cpf}` && c.status != true)
+
+    var pedido = infoPedido.find((c) => c._id === `${idPedido}`)
+
+    if (pedido) {
+      var tempoPedido = pedido.tempo
+      var data = new Date()
+
+      var arrTempoPedido = tempoPedido.split(':')
+      var horaPedidoSeg = parseInt(arrTempoPedido[0]) * 60 * 60
+      var minutoPedidoSeg = parseInt(arrTempoPedido[1]) * 60
+      var segundosPedido = parseInt(arrTempoPedido[2])
+
+      var horaAtualSeg = data.getHours() * 60 * 60; // 0-23
+      var minutoAtualSeg = data.getMinutes() * 60; // 0-59
+      var segundosAtual = data.getSeconds(); // 0-59 
+
+      var tempoAtualSeg = horaAtualSeg + minutoAtualSeg + segundosAtual
+      var tempoPedidoSeg = horaPedidoSeg + minutoPedidoSeg + segundosPedido
+
+      var variacaoTempo = tempoAtualSeg - tempoPedidoSeg
+
+      if (variacaoTempo < 300) {
+        res.redirect(`/comanda/${id}`)
+        axios.delete(`http://localhost:4000/pedido/${idPedido}`)
+      } else {
+        res.redirect(`/comanda/${idPedido}`)  
+      }
+    } else {
+      
     }
   }
   //#endregion

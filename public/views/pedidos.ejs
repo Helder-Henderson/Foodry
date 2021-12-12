@@ -20,7 +20,6 @@
 <body>
   <div class="container">
     <div class="row d-flex justify-content-center">
-
       <div class="content flex-column col col-md-4 col-sm-12 d-flex">
 
         <!--#region main-->
@@ -28,7 +27,7 @@
           <h1 class="ms-3 text-danger mt-5">
             Pedidos
           </h1>
-          <a href="" class="m-auto">
+          <a class="m-auto">
             <h2 class="text-danger fw-bold ms-5">foodry</h2>
           </a>
         </div>
@@ -47,10 +46,9 @@
         </div>
 
         <!--#endregion-->
+        <div class="p-3 contentAdd">
+          <% if(infoPedido) { %>
 
-        <% if(infoPedido) { %>
-
-        <div class="content p-3 ">
           <% for(var p of infoPedido) {  %>
 
           <% if(p.status == false) { %>
@@ -68,24 +66,25 @@
             </div>
 
             <div class="row mt-2">
-              <div class="col">
-                Quantidade
-              </div>
-              <div class="col">
+              <div class="border-2 border-bottom col py-1 fs-5 fw-bolder">
                 Nome do produto
               </div>
-              <% for(var pp of p.produtos ) { %>
-              <div class="row ">
-                <div class="m-0 col m-auto fs-4">
-                  <%=pp.quantidade%>
-                </div>
-                <div class="col text-center fs-4">
-                  <%=infoProduto.find((c) => c._id === `${pp.id}`).nome%>
-                </div>
-                <% } %>
+              <div class="border-2 border-bottom col-4 fs-5 py-1 fw-bolder">
+                Quantidade
               </div>
-
             </div>
+
+            <% for(var pp of p.produtos ) { %>
+            <div class="row">
+              <div class="border-2 border-bottom col py-1 fs-4">
+                <%=infoProduto.find((c) => c._id === `${pp.id}`).nome%>
+              </div>
+              <div class="border-2 border-bottom col-4 fs-4">
+                <%=pp.quantidade%>
+              </div>
+            </div>
+            <% } %>
+
             <div class="row my-3">
               <div class="col d-flex justify-content-between">
                 <a href="/excluir-pedido/<%=info._id%>/<%=p._id%>" class="fs-5 btn btn-danger">
@@ -97,10 +96,9 @@
               </div>
             </div>
           </div>
+          <% } } } %>
         </div>
-        <% } } } %>
       </div>
-
     </div>
   </div>
 

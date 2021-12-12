@@ -28,11 +28,11 @@ route.post('/att/:id', UserController.atualizarCliente)
 route.get('/del/:id',UserController.deletarUsuario)
 
 route.get('/menu-cliente/:id',UserController.abrirMenu)
-//route.get('/menu-cliente/:id/detalhes',(req,res) => res.render("detalhes"))
 route.post('/menu-cliente/:id/pedidoCliente',PedidoController.solicitacao)
 
 //PARTE DA COMANDA 
 route.get('/comanda/:id',PedidoController.abrirComanda)
+route.get('/cancelarPedido/:id/:idPedido',PedidoController.cancelarPedido)
 route.get('/detalhes', (req, res) => res.render("detalhes", { page: ""}))
 route.get('/nota-fiscal', (req, res) => res.render("nota-fiscal", { page: ""}))
 //#endregion
