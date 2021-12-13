@@ -1,4 +1,4 @@
-const axios = require("axios")
+const _axios = require("axios")
 
 module.exports = {
 
@@ -6,19 +6,19 @@ module.exports = {
   //#region
   create(req, res) {
 
-    const cnpj = req.body.cnpj
-    const endereco = req.body.adress
-    const telefone = req.body.phone
-    const nomeFantasia = req.body.name
+    const CNPJ = req.body.cnpj
+    const ENDERECO = req.body.adress
+    const TELEFONE = req.body.phone
+    const NOME_FANTASIA = req.body.name
 
-    var enterprise = {
-      cnpj: `${cnpj}`,
-      nomeFantasia: `${nomeFantasia}`,
-      endereco: `${endereco}`,
-      telefone: `${telefone}`
+    const ENTERPRISE = {
+      cnpj: `${CNPJ}`,
+      nomeFantasia: `${NOME_FANTASIA}`,
+      endereco: `${ENDERECO}`,
+      telefone: `${TELEFONE}`
     }
 
-    axios.post("http://localhost:4000/restaurante", enterprise).then(response => {
+    _axios.post("http://localhost:4000/restaurante", ENTERPRISE).then(response => {
 
       res.redirect("inicio-empresa")
 
@@ -30,29 +30,36 @@ module.exports = {
 
   async adicionarProduto(req, res) {
 
-    const nome = req.body.name.trim()
-    const tempo = req.body.tempo
-    const categoria = req.body.category
-    var preco = req.body.preco
-    const descricao = req.body.descricao.trim()
+    const ID = req.params.id
 
-    const newProduto = {
-      nome: `${nome}`,
-      tempoPreparo: `${tempo}`,
-      categoria: `${categoria}`,
-      preco: `${preco}`,
-      descricao: `${descricao}`,
+    const LISTA_RESTAURANTE = (await _axios.get("http://localhost:4000/restaurante")).data
+    const RESTAURANTE = LISTA_RESTAURANTE.find((c) => c._id === `${ID}`)
+
+    if (RESTAURANTE) {
+      const NOME = req.body.name.trim()
+      const TEMPO = req.body.tempo
+      const CATEGORIA = req.body.categoria
+      const PRECO = req.body.preco
+      const descricao = req.body.descricao.trim()
+
+      const NOVO_PRODUTO = {
+        nome: `${NOME}`,
+        tempoPreparo: `${TEMPO}`,
+        categoria: `${CATEGORIA}`,
+        preco: `${PRECO}`,
+        descricao: `${descricao}`,
+      }
+
+
+      _axios.post(`http://localhost:4000/produto`, NOVO_PRODUTO)
+      res.redirect(`../cardapio/${RESTAURANTE._id}`)
+    } else {
+      res.redirect("registrar-empresa")
     }
 
-    const id = req.params.id
 
-    const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
 
-    const info = dataGet.find((c) => c._id === `${id}`)
 
-    info ? axios.post(`http://localhost:4000/produto`, newProduto) : res.redirect("registrar-empresa")
-
-    res.redirect(`../cardapio/${info._id}`)
 
   },
 
@@ -63,55 +70,56 @@ module.exports = {
 
   async atualizarEmpresa(req, res) {
 
-    const id = req.params.id
+    const ID = req.params.id
 
-    const cnpj = req.body.cnpj
-    const nomeFantasia = req.body.name
-    const telefone = req.body.phone
-    const endereco = req.body.adress
+    const LISTA_RESTAURANTE = (await _axios.get("http://localhost:4000/restaurante")).data
+    const RESTAURANTE = LISTA_RESTAURANTE.find((c) => c._id === `${ID}`)
 
-    const attEnterprise = {
-      cnpj: `${cnpj}`,
-      nomeFantasia: `${nomeFantasia}`,
-      endereco: `${endereco}`,
-      telefone: `${telefone}`,
+    if (RESTAURANTE) {
+      const NOME_FANTASIA = req.body.name
+      const TELEFONE = req.body.phone
+      const ENDERECO = req.body.adress
+
+      const ATT_ENTERPRISE = {
+        nomeFantasia: `${NOME_FANTASIA}`,
+        endereco: `${ENDERECO}`,
+        telefone: `${TELEFONE}`,
+      }
+      await _axios.put(`http://localhost:4000/restaurante/${RESTAURANTE.cnpj}`, ATT_ENTERPRISE)
+      res.redirect(`/perfil-empresa/${RESTAURANTE._id}`)
+    } else {
+      res.redirect("../inicio-empresa")
     }
-
-    const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
-
-    let info = dataGet.find((c) => c._id === `${id}`)
-
-    info ? await axios.put(`http://localhost:4000/restaurante/${info.cnpj}`, attEnterprise) : res.redirect("../inicio-empresa")
-
-    info = dataGet.find((c) => c._id === `${id}`)
-
-    res.redirect(`/perfil-empresa/${info._id}`)
 
   },
 
   async atualizarProduto(req, res) {
 
-    const nome = req.body.attNome
-    const tempo = req.body.attTempo
-    const categoria = req.body.attCategoria
-    const preco = req.body.attPreco
-    const descricao = req.body.attDescricao
+    const ID_PRODUTO = req.params.idProduto
+    const ID = req.params.id
 
-    const attProduto = {
-      nome: `${nome}`,
-      tempoPreparo: `${tempo}`,
-      categoria: `${categoria}`,
-      preco: `${preco}`,
-      descricao: `${descricao}`,
+    const LISTA_RESTAURANTE = (await _axios.get("http://localhost:4000/restaurante")).data
+    const RESTAURANTE = LISTA_RESTAURANTE.find((c) => c._id === `${ID}`)
+
+    if (RESTAURANTE) {
+
+      const NOME = req.body.attNome
+      const TEMPO = req.body.attTempo
+      const CATEGORIA = req.body.attCategoria
+      const PRECO = req.body.attPreco
+      const DESCRICAO = req.body.attDescricao
+
+      const ATT_PRODUTO = {
+        nome: `${NOME}`,
+        tempoPreparo: `${TEMPO}`,
+        categoria: `${CATEGORIA}`,
+        preco: `${PRECO}`,
+        descricao: `${DESCRICAO}`,
+      }
+      await (_axios.put(`http://localhost:4000/produto/${ID_PRODUTO}`, ATT_PRODUTO))
+      console.log("PRODUTO ATUALIZADO")
     }
-
-    const id = req.params.id
-    const idProduto = req.params.idProduto
-
-    await axios.put(`http://localhost:4000/produto/${idProduto}`, attProduto)
-
-    res.redirect(`../../cardapio/${id}`)
-
+    res.redirect(`/cardapio/${ID}`)
   },
 
   //#endregion
@@ -120,44 +128,39 @@ module.exports = {
   //#region
   async login(req, res) {
 
-    const cnpj = req.body.cnpj
+    const CNPJ = req.body.cnpj
 
-    const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
+    const LISTA_RESTAURANTE = (await _axios.get("http://localhost:4000/restaurante")).data
+    const RESTAURANTE = LISTA_RESTAURANTE.find((c) => c.cnpj === `${CNPJ}`)
 
-    const info = dataGet.find((c) => c.cnpj == `${cnpj}`)
-
-    info ? res.redirect(`cardapio/${info._id}`) : res.redirect("entrar-empresa")
+    RESTAURANTE ? res.redirect(`cardapio/${RESTAURANTE._id}`) : res.redirect("entrar-empresa")
 
   },
 
   async abrirPerfil(req, res) {
 
-    const id = req.params.id
+    const ID = req.params.id
 
-    const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
+    const LISTA_RESTAURANTE = (await _axios.get("http://localhost:4000/restaurante")).data
+    const RESTAURANTE = LISTA_RESTAURANTE.find((c) => c._id === `${ID}`)
 
-    const info = dataGet.find((c) => c._id === `${id}`)
-
-    info ? res.render("perfil-empresa", {
-      info
+    RESTAURANTE ? res.render("perfil-empresa", {
+      RESTAURANTE
     }) : res.redirect("../entrar-empresa")
-
-
   },
 
   async abrirCardapio(req, res) {
 
-    const id = req.params.id
+    const ID = req.params.id
 
-    const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
+    const LISTA_RESTAURANTE = (await _axios.get("http://localhost:4000/restaurante")).data
+    const RESTAURANTE = LISTA_RESTAURANTE.find((c) => c._id === `${ID}`)
 
-    const info = dataGet.find((c) => c._id === `${id}`)
+    const LISTA_PRODUTO = (await _axios.get("http://localhost:4000/produto")).data
 
-    const infoProduto = (await axios.get("http://localhost:4000/produto")).data
-
-    info ? res.render("cardapio", {
-      info,
-      infoProduto
+    RESTAURANTE ? res.render("cardapio", {
+      RESTAURANTE,
+      LISTA_PRODUTO
     }) : res.redirect("../inicio-empresa")
 
   },
@@ -167,29 +170,39 @@ module.exports = {
   //#region
   async deletarEmpresa(req, res) {
 
-    const id = req.params.id
+    const ID = req.params.id
 
-    const dataGet = (await axios.get("http://localhost:4000/restaurante")).data
+    const LISTA_RESTAURANTE = (await _axios.get("http://localhost:4000/restaurante")).data
+    const RESTAURANTE = LISTA_RESTAURANTE.find((c) => c._id === `${ID}`)
 
-    const info = dataGet.find((c) => c._id === `${id}`)
-
-    info ? axios.delete(`http://localhost:4000/restaurante/${info.cnpj}`) : res.redirect(400, "../inicio-empresa")
-
-    res.redirect("../inicio-empresa")
-
+    if (RESTAURANTE) {
+      _axios.delete(`http://localhost:4000/restaurante/${RESTAURANTE.cnpj}`)
+      res.redirect("../inicio-empresa")
+    } else {
+      res.redirect(400, "../inicio-empresa")
+    }
   },
+
   async deletarProduto(req, res) {
 
-    const id = req.params.id
-    const idProduto = req.params.idProduto
+    const ID = req.params.id
+    const ID_PRODUTO = req.params.idProduto
 
-    const dataGet = (await axios.get("http://localhost:4000/produto")).data
+    const LISTA_RESTAURANTE = (await _axios.get("http://localhost:4000/restaurante")).data
+    const RESTAURANTE = LISTA_RESTAURANTE.find((c) => c._id === `${ID}`)
 
-    const info = dataGet.find((c) => c._id === `${idProduto}`)
+    if (RESTAURANTE) {
 
-    info ? await axios.delete(`http://localhost:4000/produto/${idProduto}`) : res.redirect("inicio-empresa")
+      const LISTA_PRODUTO = (await _axios.get("http://localhost:4000/produto")).data
+      const PRODUTO = LISTA_PRODUTO.find((c) => c._id === `${ID_PRODUTO}`)
 
-    res.redirect(`../../cardapio/${id}`)
+      if (PRODUTO) {
+        await _axios.delete(`http://localhost:4000/produto/${ID_PRODUTO}`)
+      } else {
+        res.redirect(400, "inicio-empresa")
+      }
+    }
+    res.redirect(`/cardapio/${ID}`)
   },
   //#endregion
 

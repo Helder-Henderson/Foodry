@@ -47,22 +47,22 @@
 
           <div class="mt-5 d-flex align-items-center justify-content-between">
             <h3>Nome Fantasia:</h3>
-            <h4><%=info.nomeFantasia %></h4>
+            <h4><%=RESTAURANTE.nomeFantasia %></h4>
           </div>
 
           <div class="mt-3 d-flex align-items-center justify-content-between">
             <h3>CNPJ :</h3>
-            <h4><%=info.cnpj %></h4>
+            <h4><%=RESTAURANTE.cnpj %></h4>
           </div>
 
           <div class="mt-3 d-flex align-items-center justify-content-between">
             <h3>Telefone :</h3>
-            <h4><%=info.telefone %></h4>
+            <h4><%=RESTAURANTE.telefone %></h4>
           </div>
 
           <div class="mt-3 d-flex align-items-center justify-content-between">
             <h3>Endereço</h3>
-            <h4><%=info.endereco %></h4>
+            <h4><%=RESTAURANTE.endereco %></h4>
           </div>
         </div>
 
@@ -88,24 +88,23 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form action="/attEmpresa/<%= info._id %>" method="POST" class="form d-flex flex-column m-5 mt-0 mb-2">
+                <form action="/attEmpresa/<%= RESTAURANTE._id %>" method="POST" class="form d-flex flex-column m-5 mt-0 mb-2">
 
                   <label for="name">Nome Fantasia:</label>
-                  <input value="<%= info.nomeFantasia %>" name="name" id="name" type="text" required>
+                  <input value="<%= RESTAURANTE.nomeFantasia %>" name="name" id="name" type="text" required>
 
                   <label for="cnpj">CNPJ:</label>
-                  <input value="<%= info.cnpj %>" class="cnpj" id="cnpj" name="cnpj" minlength="18" maxlength="18"
-                    type="text" required>
+                  <input value="<%= RESTAURANTE.cnpj %>" name="cnpj" type="text" disabled>
 
                   <label for="phone">Telefone:</label>
-                  <input value="<%= info.telefone %>" class="telefone" type="text" name="phone" id="phone"
+                  <input value="<%= RESTAURANTE.telefone %>" class="telefone" type="text" name="phone" id="phone"
                     minlength="15" maxlength="15" required>
 
                   <label for="adress">Endereço:</label>
-                  <input value="<%= info.endereco %>" name="adress" id="adress" type="text" required>
+                  <input value="<%= RESTAURANTE.endereco %>" name="adress" id="adress" type="text" required>
 
                   <div class=" modal-footer justify-content-between">
-                    <a class="fs-4 btn-danger btn" href="/del-empresa/<%=info._id%>">Deletar Usuário</a>
+                    <a class="fs-4 btn-danger btn" href="/del-empresa/<%=RESTAURANTE._id%>">Deletar Usuário</a>
                     <button type="submit" class="fs-4 btn btn-success">Confirmar Alterações</button>
                   </div>
 
@@ -120,7 +119,7 @@
 
       <footer class="justify-content-center d-flex fixed-bottom">
         <div class="d-flex w-25 justify-content-around">
-          <a class="" href="../cardapio/<%=info._id %>">
+          <a class="" href="../cardapio/<%=RESTAURANTE._id %>">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
               role="img" width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 12 12">
               <g fill="none">
@@ -131,7 +130,7 @@
             </svg>
           </a>
 
-          <a class="" href="../pedidos/<%=info._id %>">
+          <a class="" href="../pedidos/<%=RESTAURANTE._id %>">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
               role="img" width="3em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
               <g fill="none" stroke="black" stroke-width="4" stroke-linejoin="round">
