@@ -2,70 +2,70 @@ const UserController = require('./public/controllers/UserController')
 const EnterpriseController = require('./public/controllers/EnterpriseController')
 const PedidoController = require('./public/controllers/PedidoController')
 
-const express = require('express')
+const EXPRESS = require('express')
 
-const route = express.Router()
+const ROUTE = EXPRESS.Router()
 
-route.get('/', (req, res) => res.render("index"))
+ROUTE.get('/', (req, res) => res.render("index"))
 
 //CLIENTE 
 //#region
 
 // INDEX CLIENTE
-route.get('/inicio-cliente', (req, res) => res.render("inicio-cliente"))
+ROUTE.get('/inicio-cliente', (req, res) => res.render("inicio-cliente"))
 
 // PARTE REGISTRO DO CLIENTE
-route.get('/registrar-cliente',(req,res) => res.render("registrar-cliente"))
-route.post("/registrar-cliente", UserController.create);
+ROUTE.get('/registrar-cliente',(req,res) => res.render("registrar-cliente"))
+ROUTE.post("/registrar-cliente", UserController.create);
  
 //PARTE LOGIN CLIENTE
-route.get('/entrar-cliente', (req, res) => res.render("entrar-cliente"))
-route.post('/entrar-cliente',UserController.login)
+ROUTE.get('/entrar-cliente', (req, res) => res.render("entrar-cliente"))
+ROUTE.post('/entrar-cliente',UserController.login)
 
 /* PARTE DO PERFIL CLIENTE */
-route.get('/perfil-cliente/:id', UserController.abrirPerfil)
-route.post('/att/:id', UserController.atualizarCliente)
-route.get('/del/:id',UserController.deletarUsuario)
+ROUTE.get('/perfil-cliente/:id', UserController.abrirPerfil)
+ROUTE.post('/att/:id', UserController.atualizarCliente)
+ROUTE.get('/del/:id',UserController.deletarUsuario)
 
-route.get('/menu-cliente/:id',UserController.abrirMenu)
-route.post('/menu-cliente/:id/pedidoCliente',PedidoController.solicitacao)
+ROUTE.get('/menu-cliente/:id',UserController.abrirMenu)
+ROUTE.post('/menu-cliente/:id/pedidoCliente',PedidoController.solicitacao)
 
 //PARTE DA COMANDA 
-route.get('/comanda/:id',PedidoController.abrirComanda)
-route.get('/cancelarPedido/:id/:idPedido',PedidoController.cancelarPedido)
-route.get('/detalhes', (req, res) => res.render("detalhes", { page: ""}))
-route.get('/nota-fiscal', (req, res) => res.render("nota-fiscal", { page: ""}))
+ROUTE.get('/comanda/:id',PedidoController.abrirComanda)
+ROUTE.get('/cancelarPedido/:id/:idPedido',PedidoController.cancelarPedido)
+ROUTE.get('/detalhes', (req, res) => res.render("detalhes", { page: ""}))
+ROUTE.get('/nota-fiscal/:id/:valor', PedidoController.abrirNota)
 //#endregion
 
 //EMPRESA
 //#region
 // INDEX EMPRESA 
-route.get('/inicio-empresa', (req,res) => res.render("inicio-empresa", { page: ""}))
+ROUTE.get('/inicio-empresa', (req,res) => res.render("inicio-empresa", { page: ""}))
 
 // PARTE DE REGISTRAR A EMPRESA
-route.get('/registrar-empresa', (req,res) => res.render("registrar-empresa", { page: ""}))
-route.post('/registrar-empresa',EnterpriseController.create)
+ROUTE.get('/registrar-empresa', (req,res) => res.render("registrar-empresa", { page: ""}))
+ROUTE.post('/registrar-empresa',EnterpriseController.create)
 
 // PARTE DE LOGIN DA EMPRESA 
-route.get('/entrar-empresa', (req,res) => res.render("entrar-empresa", { page: ""}))
-route.post('/entrar-empresa',EnterpriseController.login)
+ROUTE.get('/entrar-empresa', (req,res) => res.render("entrar-empresa", { page: ""}))
+ROUTE.post('/entrar-empresa',EnterpriseController.login)
 
 // PARTE DO PERFIL DA EMPRESA
-route.get('/perfil-empresa/:id',EnterpriseController.abrirPerfil)
-route.get('/del-empresa/:id',EnterpriseController.deletarEmpresa)
-route.post('/attEmpresa/:id', EnterpriseController.atualizarEmpresa)
+ROUTE.get('/perfil-empresa/:id',EnterpriseController.abrirPerfil)
+ROUTE.get('/del-empresa/:id',EnterpriseController.deletarEmpresa)
+ROUTE.post('/attEmpresa/:id', EnterpriseController.atualizarEmpresa)
 
 // PARTE DOS PRODUTOS
-route.get('/delProduto/:id/:idProduto',EnterpriseController.deletarProduto)
-route.post('/addProduto/:id',EnterpriseController.adicionarProduto)
-route.post('/attProduto/:id/:idProduto',EnterpriseController.atualizarProduto)
-route.get('/cardapio/:id',EnterpriseController.abrirCardapio)
+ROUTE.get('/delProduto/:id/:idProduto',EnterpriseController.deletarProduto)
+ROUTE.post('/addProduto/:id',EnterpriseController.adicionarProduto)
+ROUTE.post('/attProduto/:id/:idProduto',EnterpriseController.atualizarProduto)
+ROUTE.get('/cardapio/:id',EnterpriseController.abrirCardapio)
 
 //PARTE PEDIDO 
-route.get("/pedidos/:id",PedidoController.abrirPedidos)
-route.get("/historico/:id",PedidoController.abrirHistorico)
-route.get("/excluir-pedido/:id/:idPedido",PedidoController.excluirPedido)
-route.get("/successo-pedido/:id/:idPedido",PedidoController.sucessoPedido)
+ROUTE.get("/pedidos/:id",PedidoController.abrirPedidos)
+ROUTE.get("/historico/:id",PedidoController.abrirHistorico)
+ROUTE.get("/excluir-pedido/:id/:idPedido",PedidoController.excluirPedido)
+ROUTE.get("/successo-pedido/:id/:idPedido",PedidoController.sucessoPedido)
 //#endregion
 
-module.exports = route
+module.exports = ROUTE

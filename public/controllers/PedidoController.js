@@ -155,7 +155,9 @@ module.exports = {
     const info = dataGet.find((c) => c._id === `${id}`)
 
     const dataGetPedido = (await axios.get("http://localhost:4000/pedido")).data
-    const infoPedido = dataGetPedido.filter((c) => c.cpf === `${info.cpf}` && c.status != true)
+    const infoPedido = dataGetPedido.filter((c) => c.cpf === `${info.cpf}`)
+
+    console.log(infoPedido)
 
     const dataGetProduto = (await axios.get("http://localhost:4000/produto")).data
     const produto = dataGetProduto
@@ -306,12 +308,30 @@ module.exports = {
         res.redirect(`/comanda/${id}`)
         axios.delete(`http://localhost:4000/pedido/${idPedido}`)
       } else {
-        res.redirect(`/comanda/${idPedido}`)  
+        res.redirect(`/comanda/${idPedido}`)
       }
     } else {
-      
+
     }
-  }
+  },
   //#endregion
+
+  async abrirNota(req, res) {
+    let id = req.params.id
+    let valorTotal = req.params.valor
+
+    const dataGet = (await axios.get("http://localhost:4000/cliente")).data
+    const info = dataGet.find((c) => c._id === `${id}`)
+
+    if (info) {
+
+      res.render('nota-fiscal', {
+        valorTotal
+      })
+
+    }
+
+  }
+
 
 }

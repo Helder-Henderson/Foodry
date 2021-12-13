@@ -1,79 +1,82 @@
-const axios = require("axios")
+const _axios = require("axios")
 
 module.exports = {
   //ADD 
   //#region
   create(req, res) {
 
-    const cpf = req.body.cpf
-    const email = req.body.email
-    const telefone = req.body.phone
-    const nome = req.body.name
+    const CPF = req.body.cpf
+    const EMAIL = req.body.email
+    const TELEFONE = req.body.phone
+    const NOME = req.body.name
 
-    var user = {
-      cpf: `${cpf}`,
-      nome: `${nome}`,
-      email: `${email}`,
-      telefone: `${telefone}`
+    const USER = {
+      cpf: `${CPF}`,
+      nome: `${NOME}`,
+      email: `${EMAIL}`,
+      telefone: `${TELEFONE}`
     }
-
-    axios.post("http://localhost:4000/cliente", user).then(response => {
+    
+    _axios.post("http://localhost:4000/cliente", USER).then(response => {
 
       res.redirect("inicio-cliente")
     }).catch(error => {
-  
+      console.log
       res.redirect("inicio-cliente")
     })
   },
   //#endregion
-  
+
   //OPEN
   //#region
 
   async login(req, res) {
 
-    const cpf = req.body.cpf
+    const CPF = req.body.cpf
 
-    const dataGet = (await axios.get("http://localhost:4000/cliente")).data
+    const LISTA_CLIENTE = (await _axios.get("http://localhost:4000/cliente")).data
+    const USER = LISTA_CLIENTE.find((c) => c.cpf == `${CPF}`)
 
-    const info = dataGet.find((c) => c.cpf == `${cpf}`)
-
-    info ? res.redirect(`menu-cliente/${info._id}`) : res.redirect('../entrar-cliente')
-
+    USER ? res.redirect(`menu-cliente/${USER._id}`) : res.redirect('../entrar-cliente')
   },
-
 
   async abrirPerfil(req, res) {
 
-    const id = req.params.id
+    const ID = req.params.id
+    
+    const LISTA_CLIENTE = (await _axios.get("http://localhost:4000/cliente")).data
+    const USER = LISTA_CLIENTE.find((c) => c._id === `${ID}`)
 
-    const dataGet = (await axios.get("http://localhost:4000/cliente")).data
-
-    const info = dataGet.find((c) => c._id === `${id}`)
-
-    info ? res.render("perfil-cliente", {
-      info
+    USER ? res.render("perfil-cliente", {
+      USER
     }) : res.redirect('../entrar-cliente')
 
   },
 
   async abrirMenu(req, res) {
 
-    const id = req.params.id
+    const ID = req.params.id
 
-    const dataGet = (await axios.get("http://localhost:4000/cliente")).data
-    const info = dataGet.find((c) => c._id === `${id}`)
+    const LISTA_CLIENTE = (await _axios.get("http://localhost:4000/cliente")).data
+    const USER = LISTA_CLIENTE.find((c) => c._id === `${ID}`)
 
-    const restauranteGet = (await axios.get("http://localhost:4000/restaurante")).data
-    const restaurante = restauranteGet[0]
+    const LISTA_RESTAURANTE = (await _axios.get("http://localhost:4000/restaurante")).data
+    const RESTAURANTE = LISTA_RESTAURANTE[0]
+
+    const LISTA_PRODUTO = (await _axios.get("http://localhost:4000/produto")).data
+    const PRODUTO = LISTA_PRODUTO
+
+    if (USER) {
+      res.render("menu-cliente", {
+        USER,
+        RESTAURANTE,
+        PRODUTO
+      })
+    } else {
+      res.redirect('../entrar-cliente')
+    }
 
 
-    const produtoGet = (await axios.get("http://localhost:4000/produto")).data
-    const produto = produtoGet 
-
-    info ? res.render("menu-cliente", {
-      info,restaurante,produto
-    }) : res.redirect('../entrar-cliente')
 
   },
   //#endregion
@@ -82,44 +85,40 @@ module.exports = {
   //#region
   async atualizarCliente(req, res) {
 
-    const id = req.params.id
+    const ID = req.params.id
 
-    const cpf = req.body.cpf
-    const nome = req.body.name
-    const telefone = req.body.phone
-    const email = req.body.email
+    const LISTA_CLIENTE = (await _axios.get("http://localhost:4000/cliente")).data
+    var USER = LISTA_CLIENTE.find((c) => c._id === `${ID}`)
 
-    const attUser = {
-      cpf: `${cpf}`,
-      nome: `${nome}`,
-      telefone: `${telefone}`,
-      email: `${email}`,
+    if (USER) {
+
+      const nome = req.body.name
+      const telefone = req.body.phone
+      const email = req.body.email
+
+      const attUser = {
+        nome: `${nome}`,
+        telefone: `${telefone}`,
+        email: `${email}`,
+      }
+
+      await _axios.put(`http://localhost:4000/cliente/${user.cpf}`, attUser)
+      res.redirect(`/perfil-cliente/${USER._id}`)
+    } else {
+      res.redirect("../inicio-cliente")
     }
-
-    const dataGet = (await axios.get("http://localhost:4000/cliente")).data
-
-    var info = dataGet.find((c) => c._id === `${id}`)
-
-    info ? await axios.put(`http://localhost:4000/cliente/${info.cpf}`, attUser) : res.redirect("../inicio-cliente")
-
-    info = dataGet.find((c) => c._id === `${id}`)
-
-    info ? res.redirect(`/perfil-cliente/${info._id}`) : res.redirect("../inicio-cliente")
-
-
   },
 
   async deletarUsuario(req, res) {
 
-    const id = req.params.id
+    const ID = req.params.id
 
-    const dataGet = (await axios.get("http://localhost:4000/cliente")).data
+    const LISTA_CLIENTE = (await _axios.get("http://localhost:4000/cliente")).data
+    var USER = LISTA_CLIENTE.find((c) => c._id === `${ID}`)
 
-    const info = dataGet.find((c) => c._id === `${id}`)
+    USER ? _axios.delete(`http://localhost:4000/cliente/${USER.cpf}`) : res.redirect("/inicio-cliente")
 
-    info ? axios.delete(`http://localhost:4000/cliente/${info.cpf}`) : res.redirect("../entrar-cliente")
-
-    res.redirect("../inicio-cliente")
+    res.redirect(`/inicio-cliente`)
 
   },
   //#endregion

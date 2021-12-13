@@ -77,7 +77,7 @@
             <% for(var pp of p.produtos ) { %>
             <div class="row">
               <div class="border-2 border-bottom col py-1 fs-4">
-                <%=infoProduto.find((c) => c._id === `${pp.id}`).nome%>
+                <%= infoProduto.find((c) => c._id === `${pp.id}`).nome%>
               </div>
               <div class="border-2 border-bottom col-4 fs-4">
                 <%=pp.quantidade%>
