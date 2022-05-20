@@ -1,7 +1,14 @@
 # Foodry
 
-!! SO DAR UM NPM INSTALL
+### Prototipo do TCC feito inicialmente usando algumas tecnologias frontEnd modernas
 
-  E PRA RODAR È SÒ DAR UM...  NPM RUN START
-  
-  PARA VER AS ENDPOINT - URL EXISTENTES - SÒ IR LÀ EM ROUTER E DAR UMA OLHADA NAS URL QUE CRIEI PARA  CADA VIEW 
+#### Feito com intuito de apresentar a banca uma ideia de um Cardapio Digital
+
+#### Em processo de atualização para fins de estudo e melhoramento de minhas habilidades em desenvolvimento
+
+Segue link do Prototipo : 
+
+#### Link encurtado com o Bitly !
+### Prototipo : https://bit.ly/3lsYbf0
+
+### Visão de design : https://bit.ly/3yPq6h7
